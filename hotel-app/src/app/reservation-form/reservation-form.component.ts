@@ -28,13 +28,12 @@ export class ReservationFormComponent implements OnInit{
       roomNumber:['',Validators.required]
     })
     
-     let id = this.activatedRoute.snapshot.paramMap.get('id')
+    let id = this.activatedRoute.snapshot.paramMap.get('id')
 
     if(id){
-      this.reservationService.getReservation(id).subscribe(reservation =>{
-        if(reservation)
-        this.reservationForm.patchValue(reservation)
-      })
+      let reservation = this.reservationService.getReservation(id)
+      if(reservation)
+      this.reservationForm.patchValue(reservation)
     }
   }
 
@@ -46,16 +45,12 @@ export class ReservationFormComponent implements OnInit{
    let id = this.activatedRoute.snapshot.paramMap.get('id')
 
    if(id){
-    //update
-    this.reservationService.updateReservation(id,reservation).subscribe(()=>{
-      console.log("Update request processed")
-    })
-  }else{
+     //Update
+     this.reservationService.updateReservation(id,reservation)
+   }else{
     //New
-    this.reservationService.addReservation(reservation).subscribe(()=> {
-      console.log("create request processed")
-    }) 
-  }
+    this.reservationService.addReservation(reservation)
+   }
     this.router.navigate(['/list'])
   }
   }
