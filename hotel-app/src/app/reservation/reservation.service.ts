@@ -27,19 +27,25 @@ export class ReservationService {
     reservation.id = Date.now().toString();
 
     this.reservations.push(reservation);
-    localStorage.setItem("reservations", JSON.stringify(this.reservations));
+    this.updateLocalStorage();
   }
 
   deleteReservation(id: string): void {
     let index = this.reservations.findIndex(res => res.id === id);
     this.reservations.splice(index, 1)
-    localStorage.setItem("reservations", JSON.stringify(this.reservations));
+    this.updateLocalStorage();
   }
 
   updateReservation(id: string, updatedReservation: Reservation): void {
     let index = this.reservations.findIndex(res => res.id === id);
-    this.reservations[index] = updatedReservation;
+    if (index !== -1) {
+      this.reservations[index] = updatedReservation;
+      this.updateLocalStorage();
+    } else {
+      console.error(`Reservation with ID ${id} not found.`);
+    }
+  }
+  private updateLocalStorage(): void {
     localStorage.setItem("reservations", JSON.stringify(this.reservations));
   }
-
 }
