@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./reservation-form.component.css']
 })
 export class ReservationFormComponent implements OnInit {
-
+  isEdit = false;
   reservationForm: FormGroup = new FormGroup({});
   constructor(private formBuilder: FormBuilder,
     private reservationService: ReservationService,
@@ -30,6 +30,7 @@ export class ReservationFormComponent implements OnInit {
     let id = this.activatedRoute.snapshot.paramMap.get('id')
 
     if (id) {
+      this.isEdit=true
       let reservation = this.reservationService.getReservation(id)
       if (reservation)
         this.reservationForm.patchValue(reservation)
@@ -49,6 +50,7 @@ export class ReservationFormComponent implements OnInit {
         this.reservationService.addReservation(reservation)
       }
       this.router.navigate(['/list'])
+      this.isEdit=false
     }
   }
 

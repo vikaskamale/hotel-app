@@ -1,6 +1,7 @@
 <app-home></app-home>
 
-<h3 class="mt-5 mb-3">Create a new reservation</h3>
+<h3 *ngIf="!isEdit" class="mt-5 mb-3">Create a new reservation</h3>
+<h3 *ngIf="isEdit" class="mt-5 mb-3">Edit reservation</h3>
 
 <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
     
@@ -44,7 +45,8 @@
         <small class="text-danger" *ngIf="reservationForm.get('roomNumber')?.invalid && reservationForm.get('roomNumber')?.touched">Room Number is required.</small>
     </div>
    </div>
-    <button class="btn btn-primary" type="submit" [disabled]="reservationForm.invalid">Submit</button>
+    <button *ngIf="!isEdit" class="btn btn-primary" type="submit" [disabled]="reservationForm.invalid">Submit</button>
+    <button *ngIf="isEdit" class="btn btn-primary" type="submit" [disabled]="reservationForm.invalid">Update</button>
 
 
 </form>
